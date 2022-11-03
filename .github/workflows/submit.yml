@@ -178,6 +178,12 @@ jobs:
         run: make CONF_NAME=linux-x64 LOG_LEVEL=debug images
         working-directory: jdk
 
+      - name: ls data
+        run: |
+          ls -lah
+          ls -lah build
+          ls -lah jdk
+
       - name: Persist test bundles
         uses: actions/upload-artifact@v2
         with:
@@ -584,6 +590,12 @@ jobs:
       - name: Build
         run: make CONF_NAME=linux-x86 images
         working-directory: jdk
+
+      - name: ls data
+        run: |
+          ls -lah
+          ls -lah build
+          ls -lah jdk
 
       - name: Persist test bundles
         uses: actions/upload-artifact@v2
