@@ -349,7 +349,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          path: ~/linux-x64${{ matrix.artifact }}_testsupport_${{ env.logsuffix }}.zip
+          path: ./build # ~/linux-x64${{ matrix.artifact }}_testsupport_${{ env.logsuffix }}.zip
         continue-on-error: true
 
   linux_additional_build:
@@ -756,7 +756,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          path: ~/linux-x86${{ matrix.artifact }}_testsupport_${{ env.logsuffix }}.zip
+          path: ./build # ~/linux-x86${{ matrix.artifact }}_testsupport_${{ env.logsuffix }}.zip
         continue-on-error: true
 
   windows_x64_build:
@@ -1271,7 +1271,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          path: ~/windows-x64${{ matrix.artifact }}_testsupport_${{ env.logsuffix }}.zip
+          path: ./build # ~/windows-x64${{ matrix.artifact }}_testsupport_${{ env.logsuffix }}.zip
         continue-on-error: true
 
   macos_x64_build:
@@ -1552,7 +1552,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          path: ~/macos-x64${{ matrix.artifact }}_testsupport_${{ env.logsuffix }}.zip
+          path: ./build # ~/macos-x64${{ matrix.artifact }}_testsupport_${{ env.logsuffix }}.zip
         continue-on-error: true
 
   artifacts:
