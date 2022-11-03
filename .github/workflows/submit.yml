@@ -181,8 +181,10 @@ jobs:
       - name: ls data
         run: |
           ls -lah
-          ls -lah build
           ls -lah jdk
+          ls -lah jdk/build
+          ls -lah jdk/build/linux-x64
+          ls -lah jdk/build/linux-x64/bundles
 
       - name: Persist test bundles
         uses: actions/upload-artifact@v2
@@ -594,8 +596,8 @@ jobs:
       - name: ls data
         run: |
           ls -lah
-          ls -lah build
           ls -lah jdk
+          ls -lah jdk/build
 
       - name: Persist test bundles
         uses: actions/upload-artifact@v2
@@ -927,8 +929,8 @@ jobs:
       - name: ls data
         run: |
           ls -lah
-          ls -lah build
           ls -lah jdk
+          ls -lah jdk/build
 
       - name: Persist test bundles
         uses: actions/upload-artifact@v2
