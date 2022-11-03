@@ -178,20 +178,20 @@ jobs:
         run: make CONF_NAME=linux-x64 LOG_LEVEL=debug images
         working-directory: jdk
 
-      - name: ls data
-        run: |
-          ls -lah
-          ls -lah jdk
-          ls -lah jdk/build
-          ls -lah jdk/build/linux-x64
-          ls -lah jdk/build/linux-x64/bundles
+      # - name: ls data
+      #   run: |
+      #     ls -lah
+      #     ls -lah jdk
+      #     ls -lah jdk/build
+      #     ls -lah jdk/build/linux-x64
+      #     ls -lah jdk/build/linux-x64/bundles
 
       - name: Persist test bundles
         uses: actions/upload-artifact@v2
         with:
           name: transient_jdk-linux-x64${{ matrix.artifact }}_${{ needs.prerequisites.outputs.bundle_id }}
           path: |
-            /home/runner/work/bestjava/bestjava/jdk/build/linux-x64/bundles
+            /home/runner/work/bestjava/bestjava/jdk/build/linux-x64/jdk
           # jdk/build/linux-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_linux-x64_bin${{ matrix.artifact }}.tar.gz
           # jdk/build/linux-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_linux-x64_bin-tests${{ matrix.artifact }}.tar.gz
 
@@ -593,18 +593,18 @@ jobs:
         run: make CONF_NAME=linux-x86 images
         working-directory: jdk
 
-      - name: ls data
-        run: |
-          ls -lah
-          ls -lah jdk
-          ls -lah jdk/build
+      # - name: ls data
+      #   run: |
+      #     ls -lah
+      #     ls -lah jdk
+      #     ls -lah jdk/build
 
       - name: Persist test bundles
         uses: actions/upload-artifact@v2
         with:
           name: transient_jdk-linux-x86${{ matrix.artifact }}_${{ needs.prerequisites.outputs.bundle_id }}
           path: |
-            /home/runner/work/bestjava/bestjava/jdk/build/linux-x86/bundles
+            /home/runner/work/bestjava/bestjava/jdk/build/linux-x86/jdk
           # jdk/build/linux-x86/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_linux-x86_bin${{ matrix.artifact }}.tar.gz
           # jdk/build/linux-x86/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_linux-x86_bin-tests${{ matrix.artifact }}.tar.gz
 
@@ -926,18 +926,18 @@ jobs:
           & make CONF_NAME=windows-x64 FORCE_MSC_VER=1912 FORCE_LD_VER=1412 images
         working-directory: jdk
       
-      - name: ls data
-        run: |
-          ls -lah
-          ls -lah jdk
-          ls -lah jdk/build
+      # - name: ls data
+      #   run: |
+      #     ls -lah
+      #     ls -lah jdk
+      #     ls -lah jdk/build
 
       - name: Persist test bundles
         uses: actions/upload-artifact@v2
         with:
           name: transient_jdk-windows-x64${{ matrix.artifact }}_${{ needs.prerequisites.outputs.bundle_id }}
           path: |
-            /home/runner/work/bestjava/bestjava/jdk/build/windows-x64/bundles
+            /home/runner/work/bestjava/bestjava/jdk/build/windows-x64/jdk
           # jdk/build/windows-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x64_bin${{ matrix.artifact }}.zip
           # jdk/build/windows-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x64_bin-tests${{ matrix.artifact }}.tar.gz
           # jdk/build/windows-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x64_bin${{ matrix.artifact }}-symbols.tar.gz
@@ -1091,7 +1091,7 @@ jobs:
         with:
           name: transient_jdk-windows-x86${{ matrix.artifact }}_${{ needs.prerequisites.outputs.bundle_id }}
           path: |
-            /home/runner/work/bestjava/bestjava/jdk/build/windows-x86/bundles
+            /home/runner/work/bestjava/bestjava/jdk/build/windows-x86/jdk
           # jdk/build/windows-x86/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x86_bin${{ matrix.artifact }}.zip
           # jdk/build/windows-x86/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x86_bin-tests${{ matrix.artifact }}.tar.gz
           # jdk/build/windows-x86/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x86_bin${{ matrix.artifact }}-symbols.tar.gz
@@ -1390,7 +1390,7 @@ jobs:
         with:
           name: transient_jdk-macos-x64${{ matrix.artifact }}_${{ needs.prerequisites.outputs.bundle_id }}
           path: |
-            /home/runner/work/bestjava/bestjava/jdk/build/macos-x64/bundles
+            /home/runner/work/bestjava/bestjava/jdk/build/macos-x64/jdk
           # jdk/build/macos-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_osx-x64_bin${{ matrix.artifact }}.tar.gz
           # jdk/build/macos-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_osx-x64_bin-tests${{ matrix.artifact }}.tar.gz
 
