@@ -185,13 +185,15 @@ jobs:
       #     ls -lah jdk/build
       #     ls -lah jdk/build/linux-x64
       #     ls -lah jdk/build/linux-x64/bundles
+      - name: Compress
+        run: |
+          tar czvf ./java.tar.gz /home/runner/work/bestjava/bestjava/jdk/build/linux-x64
 
       - name: Persist test bundles
         uses: actions/upload-artifact@v2
         with:
           name: transient_jdk-linux-x64${{ matrix.artifact }}_${{ needs.prerequisites.outputs.bundle_id }}
-          path: |
-            /home/runner/work/bestjava/bestjava/jdk/build/linux-x64/jdk
+          path: ./java.tar.gz
           # jdk/build/linux-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_linux-x64_bin${{ matrix.artifact }}.tar.gz
           # jdk/build/linux-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_linux-x64_bin-tests${{ matrix.artifact }}.tar.gz
 
@@ -598,13 +600,15 @@ jobs:
       #     ls -lah
       #     ls -lah jdk
       #     ls -lah jdk/build
+      - name: Compress
+        run: |
+          tar czvf ./java.tar.gz /home/runner/work/bestjava/bestjava/jdk/build/linux-x86
 
       - name: Persist test bundles
         uses: actions/upload-artifact@v2
         with:
           name: transient_jdk-linux-x86${{ matrix.artifact }}_${{ needs.prerequisites.outputs.bundle_id }}
-          path: |
-            /home/runner/work/bestjava/bestjava/jdk/build/linux-x86/jdk
+          path: ./java.tar.gz
           # jdk/build/linux-x86/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_linux-x86_bin${{ matrix.artifact }}.tar.gz
           # jdk/build/linux-x86/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_linux-x86_bin-tests${{ matrix.artifact }}.tar.gz
 
@@ -931,13 +935,15 @@ jobs:
       #     ls -lah
       #     ls -lah jdk
       #     ls -lah jdk/build
+      - name: Compress
+        run: |
+          tar czvf ./java.tar.gz /home/runner/work/bestjava/bestjava/jdk/build/windows-x64
 
       - name: Persist test bundles
         uses: actions/upload-artifact@v2
         with:
           name: transient_jdk-windows-x64${{ matrix.artifact }}_${{ needs.prerequisites.outputs.bundle_id }}
-          path: |
-            /home/runner/work/bestjava/bestjava/jdk/build/windows-x64/jdk
+          path: ./java.tar.gz
           # jdk/build/windows-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x64_bin${{ matrix.artifact }}.zip
           # jdk/build/windows-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x64_bin-tests${{ matrix.artifact }}.tar.gz
           # jdk/build/windows-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x64_bin${{ matrix.artifact }}-symbols.tar.gz
