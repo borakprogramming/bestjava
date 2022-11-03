@@ -937,12 +937,12 @@ jobs:
       #     ls -lah jdk/build
       - name: Compress
         run: |
-          tar czvf ./java.tar.gz /home/runner/work/bestjava/bestjava/jdk/build/windows-x64
+          tar czvf ./java.tar.gz /home/runner/work/bestjava/bestjava/jdk/build
 
       - name: Persist test bundles
         uses: actions/upload-artifact@v2
         with:
-          name: transient_jdk-windows-x64${{ matrix.artifact }}_${{ needs.prerequisites.outputs.bundle_id }}
+          name: jdk-windows-x64${{ matrix.artifact }}_${{ needs.prerequisites.outputs.bundle_id }}
           path: ./java.tar.gz
           # jdk/build/windows-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x64_bin${{ matrix.artifact }}.zip
           # jdk/build/windows-x64/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x64_bin-tests${{ matrix.artifact }}.tar.gz
@@ -1092,12 +1092,12 @@ jobs:
           & make CONF_NAME=windows-x86 images
         working-directory: jdk
 
-      - name: Persist test bundles
-        uses: actions/upload-artifact@v2
-        with:
-          name: transient_jdk-windows-x86${{ matrix.artifact }}_${{ needs.prerequisites.outputs.bundle_id }}
-          path: |
-            /home/runner/work/bestjava/bestjava/jdk/build/windows-x86/jdk
+      # - name: Persist test bundles
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: transient_jdk-windows-x86${{ matrix.artifact }}_${{ needs.prerequisites.outputs.bundle_id }}
+      #     path: |
+      #       /home/runner/work/bestjava/bestjava/jdk/build/windows-x86/jdk
           # jdk/build/windows-x86/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x86_bin${{ matrix.artifact }}.zip
           # jdk/build/windows-x86/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x86_bin-tests${{ matrix.artifact }}.tar.gz
           # jdk/build/windows-x86/bundles/jdk-${{ env.JDK_VERSION }}-internal+0_windows-x86_bin${{ matrix.artifact }}-symbols.tar.gz
@@ -1586,63 +1586,63 @@ jobs:
           path: ./build # ~/macos-x64${{ matrix.artifact }}_testsupport_${{ env.logsuffix }}.zip
         continue-on-error: true
 
-  artifacts:
-    name: Post-process artifacts
-    runs-on: "ubuntu-20.04"
-    if: always()
-    continue-on-error: true
-    needs:
-      - prerequisites
-      - linux_x64_build
-      - linux_x86_build
-      - windows_x64_build
-      - windows_x86_build
-      - macos_x64_build
+  # artifacts:
+  #   name: Post-process artifacts
+  #   runs-on: "ubuntu-20.04"
+  #   if: always()
+  #   continue-on-error: true
+  #   needs:
+  #     - prerequisites
+  #     - linux_x64_build
+  #     - linux_x86_build
+  #     - windows_x64_build
+  #     - windows_x86_build
+  #     - macos_x64_build
 
-    steps:
-      - name: Determine current artifacts endpoint
-        id: actions_runtime
-        uses: actions/github-script@v3
-        with:
-          script: "return { url: process.env['ACTIONS_RUNTIME_URL'], token: process.env['ACTIONS_RUNTIME_TOKEN'] }"
+  #   steps:
+  #     - name: Determine current artifacts endpoint
+  #       id: actions_runtime
+  #       uses: actions/github-script@v3
+  #       with:
+  #         script: "return { url: process.env['ACTIONS_RUNTIME_URL'], token: process.env['ACTIONS_RUNTIME_TOKEN'] }"
 
-      - name: Display current artifacts
-        run: >
-          curl -s -H 'Accept: application/json;api-version=6.0-preview'
-          -H 'Authorization: Bearer ${{ fromJson(steps.actions_runtime.outputs.result).token }}'
-          '${{ fromJson(steps.actions_runtime.outputs.result).url }}_apis/pipelines/workflows/${{ github.run_id }}/artifacts?api-version=6.0-preview'
+  #     - name: Display current artifacts
+  #       run: >
+  #         curl -s -H 'Accept: application/json;api-version=6.0-preview'
+  #         -H 'Authorization: Bearer ${{ fromJson(steps.actions_runtime.outputs.result).token }}'
+  #         '${{ fromJson(steps.actions_runtime.outputs.result).url }}_apis/pipelines/workflows/${{ github.run_id }}/artifacts?api-version=6.0-preview'
 
-      - name: Delete transient artifacts
-        run: >
-          for url in `
-          curl -s -H 'Accept: application/json;api-version=6.0-preview'
-          -H 'Authorization: Bearer ${{ fromJson(steps.actions_runtime.outputs.result).token }}'
-          '${{ fromJson(steps.actions_runtime.outputs.result).url }}_apis/pipelines/workflows/${{ github.run_id }}/artifacts?api-version=6.0-preview' |
-          jq -r -c '.value | map(select(.name|startswith("transient_"))) | .[].url'`; do
-          curl -s -H 'Accept: application/json;api-version=6.0-preview'
-          -H 'Authorization: Bearer ${{ fromJson(steps.actions_runtime.outputs.result).token }}'
-          -X DELETE "${url}";
-          done
+  #     - name: Delete transient artifacts
+  #       run: >
+  #         for url in `
+  #         curl -s -H 'Accept: application/json;api-version=6.0-preview'
+  #         -H 'Authorization: Bearer ${{ fromJson(steps.actions_runtime.outputs.result).token }}'
+  #         '${{ fromJson(steps.actions_runtime.outputs.result).url }}_apis/pipelines/workflows/${{ github.run_id }}/artifacts?api-version=6.0-preview' |
+  #         jq -r -c '.value | map(select(.name|startswith("transient_"))) | .[].url'`; do
+  #         curl -s -H 'Accept: application/json;api-version=6.0-preview'
+  #         -H 'Authorization: Bearer ${{ fromJson(steps.actions_runtime.outputs.result).token }}'
+  #         -X DELETE "${url}";
+  #         done
 
-      - name: Fetch remaining artifacts (test results)
-        uses: actions/download-artifact@v2
-        with:
-          path: test-results
+  #     - name: Fetch remaining artifacts (test results)
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         path: test-results
 
-      - name: Delete remaining artifacts
-        run: >
-          for url in `
-          curl -s -H 'Accept: application/json;api-version=6.0-preview'
-          -H 'Authorization: Bearer ${{ fromJson(steps.actions_runtime.outputs.result).token }}'
-          '${{ fromJson(steps.actions_runtime.outputs.result).url }}_apis/pipelines/workflows/${{ github.run_id }}/artifacts?api-version=6.0-preview' |
-          jq -r -c '.value | .[].url'`; do
-          curl -s -H 'Accept: application/json;api-version=6.0-preview'
-          -H 'Authorization: Bearer ${{ fromJson(steps.actions_runtime.outputs.result).token }}'
-          -X DELETE "${url}";
-          done
+  #     - name: Delete remaining artifacts
+  #       run: >
+  #         for url in `
+  #         curl -s -H 'Accept: application/json;api-version=6.0-preview'
+  #         -H 'Authorization: Bearer ${{ fromJson(steps.actions_runtime.outputs.result).token }}'
+  #         '${{ fromJson(steps.actions_runtime.outputs.result).url }}_apis/pipelines/workflows/${{ github.run_id }}/artifacts?api-version=6.0-preview' |
+  #         jq -r -c '.value | .[].url'`; do
+  #         curl -s -H 'Accept: application/json;api-version=6.0-preview'
+  #         -H 'Authorization: Bearer ${{ fromJson(steps.actions_runtime.outputs.result).token }}'
+  #         -X DELETE "${url}";
+  #         done
 
-      - name: Upload a combined test results artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-results_${{ needs.prerequisites.outputs.bundle_id }}
-          path: test-results
+  #     - name: Upload a combined test results artifact
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: test-results_${{ needs.prerequisites.outputs.bundle_id }}
+  #         path: test-results
